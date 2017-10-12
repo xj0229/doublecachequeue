@@ -1,6 +1,9 @@
 package com.test;
 
-public class Priority implements Comparable<Priority>{
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
+public class Priority implements Delayed{//Comparable<Priority>{
 	private String deviceID = null;
 	private String userID = null;
 	private long triggertime = 0;
@@ -46,9 +49,20 @@ public class Priority implements Comparable<Priority>{
 		this.priority = priority;
 	}
 
+//	@Override
+//	public int compareTo(Priority o) {
+//		return (int) (this.triggertime - o.triggertime);
+//	}
+
 	@Override
-	public int compareTo(Priority o) {
-		return (int) (this.triggertime - o.triggertime);
+	public int compareTo(Delayed o) {
+		return (int) (this.getDelay(TimeUnit.MILLISECONDS) - o.getDelay(TimeUnit.MILLISECONDS));
+	}
+
+	@Override
+	public long getDelay(TimeUnit unit) {
+		// TODO Auto-generated method stub
+		return this.triggertime - System.currentTimeMillis();
 	}
 	
 }
